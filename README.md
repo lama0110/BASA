@@ -92,33 +92,6 @@ We evaluate BASA on **FLUX.1-dev** for image resolution extrapolation and **Wan2
 
 For FLUX, BASA realizes more than **90% of its theoretical MSA speedup** in the reported setting. For Wan, BASA achieves up to **4.52× attention speedup** while maintaining competitive spatial and temporal generation quality.
 
-## Video Demos
-
-Representative 2× video resolution extrapolation results with **Wan2.1-T2V-1.3B + BASA**.
-
-### Demo 1
-
-<!--
-IMPORTANT:
-Follow the same approach as https://github.com/pigggzzz/CV_HW3
-Drag the MP4 into a GitHub Issue / PR / README editor, wait for GitHub to upload it,
-then paste the generated URL below as a standalone line.
-
-It should look like:
-https://github.com/user-attachments/assets/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
--->
-
-https://github.com/user-attachments/assets/899a5714-9e44-4056-b08d-da7d080e239e
-
-<!-- PASTE_VIDEO_1_GITHUB_USER_ATTACHMENT_URL_HERE -->
-
-### Demo 2
-
-<!--
-Paste the second GitHub user-attachments URL below as a standalone line.
--->
-https://github.com/user-attachments/assets/2668b9b5-ed37-4364-81ff-5554155bd488
-<!-- PASTE_VIDEO_2_GITHUB_USER_ATTACHMENT_URL_HERE -->
 
 ## Installation
 
@@ -162,6 +135,35 @@ BASA/
 ├── LICENSE
 └── README.md
 ```
+
+## Video Demos
+
+Representative 2× video resolution extrapolation results with **Wan2.1-T2V-1.3B + BASA**.
+
+### Demo 1
+
+<!--
+IMPORTANT:
+Follow the same approach as https://github.com/pigggzzz/CV_HW3
+Drag the MP4 into a GitHub Issue / PR / README editor, wait for GitHub to upload it,
+then paste the generated URL below as a standalone line.
+
+It should look like:
+https://github.com/user-attachments/assets/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+-->
+
+https://github.com/user-attachments/assets/899a5714-9e44-4056-b08d-da7d080e239e
+
+<!-- PASTE_VIDEO_1_GITHUB_USER_ATTACHMENT_URL_HERE -->
+
+### Demo 2
+
+<!--
+Paste the second GitHub user-attachments URL below as a standalone line.
+-->
+https://github.com/user-attachments/assets/2668b9b5-ed37-4364-81ff-5554155bd488
+<!-- PASTE_VIDEO_2_GITHUB_USER_ATTACHMENT_URL_HERE -->
+
 
 ## Citation
 
