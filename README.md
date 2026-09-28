@@ -67,7 +67,7 @@ BASA combines four complementary components:
 4. **Dense-Teacher Sparse Adaptation** to reduce the discrepancy between sparse and dense pre-trained attention.
 
 <p align="center">
-  <img src="assets/method_v13.svg" width="100%" alt="BASA method overview">
+  <img src="assets/method_v13_readme.svg" width="100%" alt="BASA method overview">
 </p>
 
 <p align="center">
@@ -106,13 +106,7 @@ It should look like:
 https://github.com/user-attachments/assets/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 -->
 
-
 https://github.com/user-attachments/assets/899a5714-9e44-4056-b08d-da7d080e239e
-
-
-
-
-
 
 <!-- PASTE_VIDEO_1_GITHUB_USER_ATTACHMENT_URL_HERE -->
 
