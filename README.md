@@ -67,9 +67,7 @@ BASA combines four complementary components:
 4. **Dense-Teacher Sparse Adaptation** to reduce the discrepancy between sparse and dense pre-trained attention.
 
 <p align="center">
-  <a href="assets/method_v13_compressed.pdf">
-    <img src="assets/method_v13_compressed.png" width="100%" alt="BASA method overview">
-  </a>
+  <img src="assets/method_v13.svg" width="100%" alt="BASA method overview">
 </p>
 
 <p align="center">
