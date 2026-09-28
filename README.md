@@ -1,4 +1,4 @@
-# **BASA: Backend-Agnostic Sparse Attention for Fast High-Resolution Visual Generation**
+# BASA: Backend-Agnostic Sparse Attention for Fast High-Resolution Visual Generation
 
 <p align="center">
   <b>Efficient high-resolution image and video generation with regular, backend-friendly sparse attention.</b>
@@ -15,9 +15,23 @@
 
 ---
 
-<!-- Replace FIRST_FIGURE_FILE with the exact filename under assets/. -->
+<!--
+GitHub README does not render PDF files inline as images.
+Keep the original vector files:
+  assets/first_figure.pdf
+  assets/method_v13.pdf
+and export README previews as:
+  assets/first_figure.png
+  assets/method_v13_readme.png
+
+For method_v13_readme.png, crop the lower blank region to match:
+trim=0 9.5cm 0 0cm, clip
+-->
+
 <p align="center">
-  <img src="assets/FIRST_FIGURE_FILE" width="100%">
+  <a href="assets/first_figure.pdf">
+    <img src="assets/first_figure.png" width="100%" alt="BASA qualitative results">
+  </a>
 </p>
 
 <p align="center">
@@ -26,24 +40,24 @@
   </em>
 </p>
 
-## **Overview**
+## Overview
 
 **BASA** is a backend-agnostic sparse attention framework for efficient high-resolution visual generation with Diffusion Transformers (DiTs).
 
-Conventional non-overlapping window attention is highly efficient on existing attention backends, but isolated windows can introduce visible boundary artifacts. Fine-grained sliding-window attention improves cross-window communication, yet its irregular computation pattern often requires specialized kernels and can lead to a large gap between theoretical and measured speedups.
+Conventional non-overlapping window attention is highly efficient on existing attention backends, but isolated windows can introduce visible boundary artifacts. Fine-grained sliding-window attention improves cross-window communication, yet its irregular computation pattern often requires specialized kernels and can create a large gap between theoretical and measured speedups.
 
-BASA is designed to obtain the benefits of both directions. It keeps attention computation **regular and backend-friendly**, while restoring cross-window and long-range visual interactions through structured sparsity. BASA is implemented as a **drop-in replacement for visual self-attention**: the original Q/K/V projections, cross-attention, MLP blocks, and the surrounding generation pipeline remain unchanged.
+BASA is designed to obtain the advantages of both directions. It keeps attention computation **regular and backend-friendly**, while restoring cross-window and long-range visual interactions through structured sparsity. BASA is implemented as a **drop-in replacement for visual self-attention**: the original Q/K/V projections, cross-attention, MLP blocks, and the surrounding generation pipeline remain unchanged.
 
-### **Highlights**
+### Highlights
 
-- ⚡ **Practical acceleration.** BASA expresses sparse attention as regular dense attention calls and works with standard attention backends without requiring customized sparse kernels.
-- 🪟 **Shifted local windows.** An interleaved shift schedule across DiT layers and denoising steps enables information propagation across window boundaries.
-- 🌐 **K/V-pooled global memory.** Spatially pooled keys and values provide low-cost scene-level context to every local query window.
+- ⚡ **Practical acceleration.** BASA expresses sparse attention through regular attention operations and does not require customized sparse-attention kernels.
+- 🪟 **Shifted local windows.** An interleaved shift schedule across DiT layers and denoising steps promotes information propagation across window boundaries.
+- 🌐 **K/V-pooled global memory.** Spatially pooled keys and values provide low-cost scene-level global context.
 - 🎥 **Content-adaptive true-window routing.** For video generation, BASA retrieves a small number of relevant uncompressed spatial windows while preserving their full temporal extent.
-- 🎓 **Dense-teacher sparse adaptation.** Sparse attention is adapted from the original dense DiT using a frozen dense teacher and memory-efficient LoRA training.
-- 🔌 **Drop-in design.** BASA modifies only visual self-attention and leaves the external FLUX/Wan generation pipeline unchanged.
+- 🎓 **Dense-teacher sparse adaptation.** Sparse attention is adapted from the original dense DiT with a frozen dense teacher and memory-efficient LoRA training.
+- 🔌 **Drop-in design.** BASA modifies only visual self-attention and keeps the external FLUX/Wan generation pipeline unchanged.
 
-## **Method**
+## Method
 
 BASA combines four complementary components:
 
@@ -52,15 +66,10 @@ BASA combines four complementary components:
 3. **Content-Adaptive True-Window Routing** for fine-grained long-range information in video generation.
 4. **Dense-Teacher Sparse Adaptation** to reduce the discrepancy between sparse and dense pre-trained attention.
 
-<!--
-GitHub README does not support LaTeX-style trim/clip.
-For the cleanest rendering, export a cropped README copy of method_v13 first.
-The intended crop is approximately equivalent to:
-  trim=0 9.5cm 0 0cm, clip
-Suggested output filename: assets/method_v13_readme.png
--->
 <p align="center">
-  <img src="assets/method_v13_readme.png" width="100%">
+  <a href="assets/method_v13.pdf">
+    <img src="assets/method_v13_readme.png" width="100%" alt="BASA method overview">
+  </a>
 </p>
 
 <p align="center">
@@ -72,7 +81,7 @@ Suggested output filename: assets/method_v13_readme.png
   </em>
 </p>
 
-## **Results**
+## Results
 
 We evaluate BASA on **FLUX.1-dev** for image resolution extrapolation and **Wan2.1-T2V-1.3B** for video resolution extrapolation.
 
@@ -81,31 +90,39 @@ We evaluate BASA on **FLUX.1-dev** for image resolution extrapolation and **Wan2
 | Image: 1024×1024 → 2048×2048 | FLUX.1-dev | `w=32, p=4` | **8.871 ms** | **2.443×** |
 | Video: 832×480 → 1664×960 | Wan2.1-T2V-1.3B | `w=(10,10), p=(4,4)` | **112.84 ms** | **4.52×** |
 
-For FLUX, BASA reaches more than **90% of the theoretical MSA speedup** in the reported configuration. For Wan, BASA achieves up to **4.52× attention speedup** while maintaining competitive spatial and temporal generation quality.
+For FLUX, BASA realizes more than **90% of its theoretical MSA speedup** in the reported setting. For Wan, BASA achieves up to **4.52× attention speedup** while maintaining competitive spatial and temporal generation quality.
 
-## **Video Demos**
+## Video Demos
 
 Representative 2× video resolution extrapolation results with **Wan2.1-T2V-1.3B + BASA**.
 
+### Demo 1
+
 <!--
-For native inline playback on GitHub README, edit README.md on github.com and drag the two MP4 files
-from assets/ into the editor. GitHub will generate user-attachments URLs. Replace the two placeholders
-below with those URLs, each on its own line.
+IMPORTANT:
+Follow the same approach as https://github.com/pigggzzz/CV_HW3
+Drag the MP4 into a GitHub Issue / PR / README editor, wait for GitHub to upload it,
+then paste the generated URL below as a standalone line.
+
+It should look like:
+https://github.com/user-attachments/assets/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 -->
 
-**Demo 1**
+<!-- PASTE_VIDEO_1_GITHUB_USER_ATTACHMENT_URL_HERE -->
 
-VIDEO_1_GITHUB_ATTACHMENT_URL
+### Demo 2
 
-**Demo 2**
+<!--
+Paste the second GitHub user-attachments URL below as a standalone line.
+-->
 
-VIDEO_2_GITHUB_ATTACHMENT_URL
+<!-- PASTE_VIDEO_2_GITHUB_USER_ATTACHMENT_URL_HERE -->
 
-## **Installation**
+## Installation
 
 The image and video code use separate Conda environments.
 
-### **Image / FLUX**
+### Image / FLUX
 
 ```bash
 conda create -n basa_image python=3.12 -y
@@ -120,7 +137,7 @@ pip install diffusers==0.31
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 ```
 
-### **Video / Wan**
+### Video / Wan
 
 ```bash
 conda create -n basa_video python=3.12 -y
@@ -133,30 +150,30 @@ pip install -e .
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 ```
 
-## **Repository Structure**
+## Repository Structure
 
 ```text
 BASA/
-├── assets/          # README figures and qualitative video demos
+├── assets/          # Figures and qualitative video assets
 ├── image/           # FLUX image resolution extrapolation
 ├── video/           # Wan video resolution extrapolation
 ├── LICENSE
 └── README.md
 ```
 
-## **Citation**
+## Citation
 
 Citation information will be added together with the public paper release.
 
-## **Acknowledgements**
+## Acknowledgements
 
-This repository builds upon and adapts code/framework components from the following excellent open-source projects:
+A substantial part of the code framework in this repository is built upon or adapted from the following excellent open-source projects:
 
 - [CLEAR](https://github.com/Huage001/CLEAR)
 - [DiffSynth-Studio](https://github.com/modelscope/DiffSynth-Studio)
 
-We sincerely thank the authors and contributors of these projects for making their work publicly available. Their implementations provided important foundations for the development of this codebase.
+We sincerely thank the authors and contributors of these projects for making their work publicly available. Their implementations provided important foundations and references for the development of this codebase.
 
-## **License**
+## License
 
 This repository is released under the [MIT License](LICENSE).
