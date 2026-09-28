@@ -1,7 +1,3 @@
-
-
-https://github.com/user-attachments/assets/334fc237-f2fe-42b9-9f21-90ec3209cb1f
-
 # BASA: Backend-Agnostic Sparse Attention for Fast High-Resolution Visual Generation
 
 <p align="center">
