@@ -1,3 +1,7 @@
+
+
+https://github.com/user-attachments/assets/334fc237-f2fe-42b9-9f21-90ec3209cb1f
+
 # BASA: Backend-Agnostic Sparse Attention for Fast High-Resolution Visual Generation
 
 <p align="center">
@@ -108,6 +112,14 @@ It should look like:
 https://github.com/user-attachments/assets/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 -->
 
+
+https://github.com/user-attachments/assets/899a5714-9e44-4056-b08d-da7d080e239e
+
+
+
+
+
+
 <!-- PASTE_VIDEO_1_GITHUB_USER_ATTACHMENT_URL_HERE -->
 
 ### Demo 2
@@ -115,7 +127,7 @@ https://github.com/user-attachments/assets/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 <!--
 Paste the second GitHub user-attachments URL below as a standalone line.
 -->
-
+https://github.com/user-attachments/assets/2668b9b5-ed37-4364-81ff-5554155bd488
 <!-- PASTE_VIDEO_2_GITHUB_USER_ATTACHMENT_URL_HERE -->
 
 ## Installation
