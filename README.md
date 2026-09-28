@@ -29,8 +29,8 @@ trim=0 9.5cm 0 0cm, clip
 -->
 
 <p align="center">
-  <a href="assets/first_figure.pdf">
-    <img src="assets/first_figure.png" width="100%" alt="BASA qualitative results">
+  <a href="assets/first_figure_3_compressed.pdf">
+    <img src="assets/first_figure_3_compressed.png" width="100%" alt="BASA qualitative results">
   </a>
 </p>
 
@@ -67,8 +67,8 @@ BASA combines four complementary components:
 4. **Dense-Teacher Sparse Adaptation** to reduce the discrepancy between sparse and dense pre-trained attention.
 
 <p align="center">
-  <a href="assets/method_v13.pdf">
-    <img src="assets/method_v13_readme.png" width="100%" alt="BASA method overview">
+  <a href="assets/method_v13_compressed.pdf">
+    <img src="assets/method_v13_compressed.png" width="100%" alt="BASA method overview">
   </a>
 </p>
 
