@@ -129,7 +129,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 
 ```text
 BASA/
-├── assets/          # Figures and qualitative video assets
+├── assets/         
 ├── image/           # FLUX image resolution extrapolation
 ├── video/           # Wan video resolution extrapolation
 ├── LICENSE
