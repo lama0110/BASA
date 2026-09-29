@@ -16,7 +16,13 @@ from ..diffusion import FlowMatchScheduler
 from ..core import ModelConfig, gradient_checkpoint_forward
 from ..diffusion.base_pipeline import BasePipeline, PipelineUnit
 
-from ..models.wan_video_dit import WanModel, sinusoidal_embedding_1d, convert_wan_self_attention_to_basa, set_basa_sparse_attention_shape
+from ..models.wan_video_dit import (
+    WanModel,
+    sinusoidal_embedding_1d,
+    convert_wan_self_attention_to_basa,
+    set_basa_sparse_attention_shape,
+    set_basa_denoising_step,
+)
 from ..models.wan_video_dit_s2v import rope_precompute
 from ..models.wan_video_text_encoder import WanTextEncoder, HuggingfaceTokenizer
 from ..models.wan_video_vae import WanVideoVAE
@@ -327,6 +333,9 @@ class WanVideoPipeline(BasePipeline):
                 self.load_models_to_device(self.in_iteration_models_2)
                 models["dit"] = self.dit2
                 models["vace"] = self.vace2
+
+            # Shift BASA windows across both DiT depth and denoising steps.
+            set_basa_denoising_step(models["dit"], progress_id + 1)
                 
             # Timestep
             timestep = timestep.unsqueeze(0).to(dtype=self.torch_dtype, device=self.device)

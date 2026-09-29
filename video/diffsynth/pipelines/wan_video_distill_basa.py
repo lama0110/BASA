@@ -15,7 +15,7 @@ from ..diffusion import FlowMatchScheduler
 from ..core import ModelConfig, gradient_checkpoint_forward
 from ..diffusion.base_pipeline import BasePipeline, PipelineUnit
 
-from ..models.wan_video_dit import WanModel, sinusoidal_embedding_1d
+from ..models.wan_video_dit import WanModel, sinusoidal_embedding_1d, StudentSelfAttention, set_basa_denoising_step
 from ..models.wan_video_dit_s2v import rope_precompute
 from ..models.wan_video_text_encoder import WanTextEncoder, HuggingfaceTokenizer
 from ..models.wan_video_vae import WanVideoVAE
@@ -27,7 +27,6 @@ from ..models.wan_video_mot import MotWanModel
 from ..models.wav2vec import WanS2VAudioEncoder
 from ..models.longcat_video_dit import LongCatVideoTransformer3DModel
 import copy
-from ..models.wan_video_dit import StudentSelfAttention
 
 
 
@@ -313,6 +312,9 @@ class WanVideoPipeline(BasePipeline):
                 self.load_models_to_device(self.in_iteration_models_2)
                 models["dit"] = self.dit2
                 models["vace"] = self.vace2
+
+            # Use the same layer + denoising-step BASA schedule during distillation.
+            set_basa_denoising_step(models["dit"], progress_id + 1)
                 
             # Timestep
             timestep = timestep.unsqueeze(0).to(dtype=self.torch_dtype, device=self.device)
