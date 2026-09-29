@@ -196,6 +196,9 @@ class StudentSelfAttention(nn.Module):
         self.window_size = (15, 26)           # smaller shifted spatial windows
         self.num_layers = 30
 
+        # 1-based runtime denoising-step offset, matching image BASA.
+        self.denoising_step = 1
+
         # Original pooling-token branch: kept unchanged.
         self.use_pooling_token = True
         self.pool_size = (4, 4)
@@ -247,18 +250,16 @@ class StudentSelfAttention(nn.Module):
         return offsets
 
     def _get_layer_shift(self):
-        """
-        Read block_index directly and convert it to spatial shift.
-        No denoising_step, no seed, no external kwargs.
-        """
+        """Compute the spatial shift from DiT depth and denoising step."""
         Wh, Ww = self.window_size
         layer_id = self.block_index % self.num_layers
+        step = int(self.denoising_step)
 
         offsets_h = self._build_interleaved_offsets(Wh, self.num_layers)
         offsets_w = self._build_interleaved_offsets(Ww, self.num_layers)
 
-        shift_h = offsets_h[layer_id] % Wh
-        shift_w = offsets_w[layer_id] % Ww
+        shift_h = (offsets_h[layer_id] + step) % Wh
+        shift_w = (offsets_w[layer_id] + step) % Ww
         return shift_h, shift_w
 
     @staticmethod
@@ -666,7 +667,18 @@ class StudentSelfAttention(nn.Module):
 
         return self.o(x)
 
-    
+def set_basa_denoising_step(model: nn.Module, denoising_step: int):
+    """Set the 1-based denoising step for all student BASA blocks."""
+    step = int(denoising_step)
+    if step < 1:
+        raise ValueError(f"denoising_step must be >= 1, got {step}")
+
+    for block in getattr(model, "blocks", []):
+        attn = getattr(block, "self_attn", None)
+        if isinstance(attn, StudentSelfAttention):
+            attn.denoising_step = step
+
+
 class CrossAttention(nn.Module):
     def __init__(self, dim: int, num_heads: int, eps: float = 1e-6, has_image_input: bool = False):
         super().__init__()

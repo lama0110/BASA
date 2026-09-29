@@ -225,6 +225,9 @@ class BasaSparseSelfAttention(nn.Module):
         self.window_size = tuple(int(v) for v in window_size)
         self.num_layers = int(num_layers)
 
+        # 1-based runtime denoising-step offset, matching image BASA.
+        self.denoising_step = 1
+
         # K/V-only spatial pooling memory branch.
         self.use_pooling_token = bool(use_pooling_token)
         self.pool_size = tuple(int(v) for v in pool_size)
@@ -272,18 +275,16 @@ class BasaSparseSelfAttention(nn.Module):
         return offsets
 
     def _get_layer_shift(self):
-        """
-        Read block_index directly and convert it to spatial shift.
-        No denoising_step, no seed, no external kwargs.
-        """
+        """Compute the spatial shift from DiT depth and denoising step."""
         Wh, Ww = self.window_size
         layer_id = self.block_index % self.num_layers
+        step = int(self.denoising_step)
 
         offsets_h = self._build_interleaved_offsets(Wh, self.num_layers)
         offsets_w = self._build_interleaved_offsets(Ww, self.num_layers)
 
-        shift_h = offsets_h[layer_id] % Wh
-        shift_w = offsets_w[layer_id] % Ww
+        shift_h = (offsets_h[layer_id] + step) % Wh
+        shift_w = (offsets_w[layer_id] + step) % Ww
         return shift_h, shift_w
 
     @staticmethod
@@ -750,6 +751,18 @@ def set_basa_sparse_attention_shape(model: nn.Module, f: int, h: int, w: int):
         attn = getattr(block, "self_attn", None)
         if isinstance(attn, BasaSparseSelfAttention):
             attn.spatial_shape = spatial_shape
+
+
+def set_basa_denoising_step(model: nn.Module, denoising_step: int):
+    """Set the 1-based denoising step for all BASA self-attention blocks."""
+    step = int(denoising_step)
+    if step < 1:
+        raise ValueError(f"denoising_step must be >= 1, got {step}")
+
+    for block in getattr(model, "blocks", []):
+        attn = getattr(block, "self_attn", None)
+        if isinstance(attn, BasaSparseSelfAttention):
+            attn.denoising_step = step
 
 
 class CrossAttention(nn.Module):
