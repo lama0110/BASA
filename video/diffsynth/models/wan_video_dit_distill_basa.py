@@ -173,7 +173,10 @@ class StudentSelfAttention(nn.Module):
       4) no pooling gate
       5) no extra trainable parameters
     """
-
+# The denoising-step term is an optional schedule component. In practice,
+# layer-wise interleaving alone is already effective for some configurations
+# (for example w=10, p=4). Adding the step term gives the full BASA schedule
+# without changing the underlying sparse-attention branches.
     def __init__(self, dim: int, num_heads: int, block_index: int, eps: float = 1e-6):
         super().__init__()
         self.dim = dim
